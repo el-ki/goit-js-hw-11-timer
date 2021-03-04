@@ -64,48 +64,48 @@ import './styles.css';
 // const secs = Math.floor((time % (1000 * 60)) / 1000);
 
 class CountdownTimer {
-    constructor() {
-        this.intervalId = null;  
-    }
-        start() {
-            const startime = Date.now();
+    constructor({ selector, targetDate }) {
+        this.intervalId = null;
+        this.targetDate = targetDate.getTime(); 
+        const startime = this.targetDate;
+
         this.intervalId = setInterval(() => {
             const currentTime = Date.now();
-            const deltaTime = currentTime - startime;
+            const deltaTime = startime - currentTime;
+            if (deltaTime <= 0) { 
+                clearInterval(this.intervalId)
+            }
             const times = getTimeComponents(deltaTime)
             updateClockface(times);
         }, 1000);
-    }
+
+        const clockDays = document.querySelector('span[data-value="days"]');
+        const clockHours = document.querySelector('span[data-value="hours"]');
+        const clockMins = document.querySelector('span[data-value="mins"]');
+        const clockSecs = document.querySelector('span[data-value="secs"]');
+
+        function updateClockface({ days, hours, mins, secs }) { 
+            clockDays.textContent = `${days}`;
+            clockHours.textContent = `${hours}`;
+            clockMins.textContent = `${mins}`;
+            clockSecs.textContent = `${secs}`;
+        };
+
+        function pad(value) { 
+            return String(value).padStart(2, '0');
+        };
+        
+        function getTimeComponents(time) {
+            const days = pad(Math.floor(time / (1000 * 60 * 60 * 24)));
+            const hours = pad(Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+            const mins = pad(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
+            const secs = pad(Math.floor((time % (1000 * 60)) / 1000));
+            return { days, hours, mins, secs };
+        };
+    } 
 }
 
-const timer = new CountdownTimer({
+new CountdownTimer({
   selector: '#timer-1',
-  targetDate: new Date('Jul 17, 2019'),
+  targetDate: new Date('Jul 17, 2021'),
 });
-
-const clockDays = document.querySelector('span[data-value="days"]')
-const clockHours = document.querySelector('span[data-value="hours"]')
-const clockMins = document.querySelector('span[data-value="mins"]')
-const clockSecs = document.querySelector('span[data-value="secs"]')
-
-timer.start()
-
-function updateClockface({ days, hours, mins, secs }) { 
-    clockDays.textContent = `${days}`;
-    clockHours.textContent = `${hours}`;
-    clockMins.textContent = `${mins}`;
-    clockSecs.textContent = `${secs}`;
-}
-
-function pad(value) { 
-    return String(value).padStart(2, '0');
-}
-
-function getTimeComponents(time) {
-    const days = pad(Math.floor(time / (1000 * 60 * 60 * 24)));
-    const hours = pad(Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
-    const mins = pad(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
-    const secs = pad(Math.floor((time % (1000 * 60)) / 1000));
-    return { days, hours, mins, secs };
-}
-
