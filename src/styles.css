@@ -1,0 +1,15 @@
+.value {
+  text-align: center;
+  font-size: 50px;
+  margin-top: 0px;
+  margin-right: 30px;
+}
+
+.label {
+  display: block;
+  flex-wrap: wrap;
+}
+
+.timer {
+  display: flex;
+}
