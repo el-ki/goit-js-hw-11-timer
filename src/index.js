@@ -102,8 +102,8 @@ class CountdownTimer {
             const secs = pad(Math.floor((time % (1000 * 60)) / 1000));
             return { days, hours, mins, secs };
         };
-    } 
-}
+    };
+};
 
 new CountdownTimer({
   selector: '#timer-1',
