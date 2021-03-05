@@ -68,6 +68,8 @@ class CountdownTimer {
         this.intervalId = null;
         this.targetDate = targetDate.getTime(); 
         const startime = this.targetDate;
+        
+        console.log(selector);
 
         this.intervalId = setInterval(() => {
             const currentTime = Date.now();
@@ -79,10 +81,10 @@ class CountdownTimer {
             updateClockface(times);
         }, 1000);
 
-        const clockDays = document.querySelector('span[data-value="days"]');
-        const clockHours = document.querySelector('span[data-value="hours"]');
-        const clockMins = document.querySelector('span[data-value="mins"]');
-        const clockSecs = document.querySelector('span[data-value="secs"]');
+        const clockDays = document.querySelector(`${selector} span[data-value="days"]`);
+        const clockHours = document.querySelector(`${selector} span[data-value="hours"]`);
+        const clockMins = document.querySelector(`${selector} span[data-value="mins"]`);
+        const clockSecs = document.querySelector(`${selector} span[data-value="secs"]`);
 
         function updateClockface({ days, hours, mins, secs }) { 
             clockDays.textContent = `${days}`;
@@ -108,4 +110,9 @@ class CountdownTimer {
 new CountdownTimer({
   selector: '#timer-1',
   targetDate: new Date('Jul 17, 2021'),
+});
+
+new CountdownTimer({
+  selector: '#timer-2',
+  targetDate: new Date('Jul 7, 2022'),
 });
